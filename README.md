@@ -1,5 +1,24 @@
 # Assignment Dropon
 
+
+## Prerequisites
+
+1. Install bun 
+
+```bash
+# Linux/macOS:
+curl -fsSL https://bun.sh/install | bash
+
+# Windows:
+powershell -c "irm bun.sh/install.ps1 | iex"
+```
+
+## Running the project
+
+```bash
+bun run index.ts
+```
+
 ## Given
 
 - An empty chess board with some methods to move pieces and print the board
