@@ -17,7 +17,6 @@ func shutdown() {
 }
 
 func main() {
-	// Similar to process.on('SIGTERM'/'SIGKILL') in Node
 	signals := make(chan os.Signal, 1)
 	signal.Notify(signals, syscall.SIGTERM, syscall.SIGINT)
 
