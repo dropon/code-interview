@@ -20,7 +20,7 @@ func NewBishop(x, y int, color Color) *Bishop {
 	}
 }
 
-func (b *Bishop) GetMoves() [][]int {
+func (b *Bishop) Moves() [][]int {
 	// not implemented
 	return [][]int{}
 }

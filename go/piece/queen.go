@@ -20,7 +20,7 @@ func NewQueen(x, y int, color Color) *Queen {
 	}
 }
 
-func (q *Queen) GetMoves() [][]int {
+func (q *Queen) Moves() [][]int {
 	// not implemented
 	return [][]int{}
 }

@@ -11,7 +11,7 @@ type Piece interface {
 	Symbol() string
 	Color() Color
 	Position() (int, int)
-	GetMoves() [][]int
+	Moves() [][]int
 }
 
 // BasePiece is embedded in concrete piece types.

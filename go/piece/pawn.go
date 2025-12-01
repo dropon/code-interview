@@ -21,7 +21,7 @@ func NewPawn(x, y int, color Color) *Pawn {
 	}
 }
 
-func (p *Pawn) GetMoves() [][]int {
+func (p *Pawn) Moves() [][]int {
 	// not implemented (matches original TS)
 	return [][]int{}
 }

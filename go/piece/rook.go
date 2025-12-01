@@ -20,7 +20,7 @@ func NewRook(x, y int, color Color) *Rook {
 	}
 }
 
-func (r *Rook) GetMoves() [][]int {
+func (r *Rook) Moves() [][]int {
 	// not implemented
 	return [][]int{}
 }

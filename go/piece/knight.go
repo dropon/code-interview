@@ -21,7 +21,7 @@ func NewKnight(x, y int, color Color) *Knight {
 	}
 }
 
-func (k *Knight) GetMoves() [][]int {
+func (k *Knight) Moves() [][]int {
 	// not implemented
 	return [][]int{}
 }
