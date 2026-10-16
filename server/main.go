@@ -16,13 +16,10 @@ type FenResponse struct {
 
 func main() {
 	http.HandleFunc("/fenstrings", func(rw http.ResponseWriter, r *http.Request) {
-		i, err := rand.Int(rand.Reader, big.NewInt(2000))
+		i, err := rand.Int(rand.Reader, big.NewInt(1000))
 		if err != nil {
 			fmt.Println(err)
 		}
-
-		fmt.Println("artificial delay of %d milliseconds", i)
-		time.Sleep(time.Duration(i.Int64()) * time.Millisecond)
 
 		query := r.URL.Query()
 		fromStr := query.Get("from")
@@ -11044,6 +11041,22 @@ func main() {
 		if err != nil {
 			to = len(fenStrings)
 		}
+
+		if from > to {
+			http.Error(rw, "from should be >= to", http.StatusBadRequest)
+			return
+		}
+
+		if to > len(fenStrings) {
+			to = len(fenStrings)
+		}
+
+		// up to 6s scaled by requested share + up to 1s jitter, so a full request caps at 7s
+		delayFactor := float64(to-from+1) / float64(len(fenStrings))
+		jitter := time.Duration(i.Int64()) * time.Millisecond
+		delay := time.Duration(delayFactor*float64(6*time.Second)) + jitter
+		fmt.Printf("sleeping for %v\n", delay)
+		time.Sleep(delay)
 
 		paginatedFenStrings := fenStrings[from-1 : to]
 
