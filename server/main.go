@@ -14,12 +14,12 @@ type FenResponse struct {
 	FenStrings []string `json:"fenstrings"`
 }
 
-func main() {
+func newHandler() http.HandlerFunc {
 	// a slot is held until the request is done and at least 1s has passed since it started:
 	// max 10 requests per second, and no new ones while 10 are still in flight
 	slots := make(chan struct{}, 10)
 
-	http.HandleFunc("/fenstrings", func(rw http.ResponseWriter, r *http.Request) {
+	return func(rw http.ResponseWriter, r *http.Request) {
 		select {
 		case slots <- struct{}{}:
 		default:
@@ -11079,8 +11079,11 @@ func main() {
 		paginatedFenStrings := fenStrings[from-1 : to]
 
 		json.NewEncoder(rw).Encode(FenResponse{FenStrings: paginatedFenStrings})
-	})
+	}
+}
 
+func main() {
+	http.HandleFunc("/fenstrings", newHandler())
 	fmt.Println("Listening on port 3000")
 	http.ListenAndServe(":3000", nil)
 }
