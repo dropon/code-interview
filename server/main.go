@@ -15,7 +15,25 @@ type FenResponse struct {
 }
 
 func main() {
+	// a slot is held until the request is done and at least 1s has passed since it started:
+	// max 10 requests per second, and no new ones while 10 are still in flight
+	slots := make(chan struct{}, 10)
+
 	http.HandleFunc("/fenstrings", func(rw http.ResponseWriter, r *http.Request) {
+		select {
+		case slots <- struct{}{}:
+		default:
+			http.Error(rw, "too many requests", http.StatusTooManyRequests)
+			return
+		}
+		start := time.Now()
+		defer func() {
+			go func() {
+				time.Sleep(time.Second - time.Since(start))
+				<-slots
+			}()
+		}()
+
 		i, err := rand.Int(rand.Reader, big.NewInt(1000))
 		if err != nil {
 			fmt.Println(err)
