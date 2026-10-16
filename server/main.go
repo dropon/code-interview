@@ -12,6 +12,7 @@ import (
 
 type FenResponse struct {
 	FenStrings []string `json:"fenstrings"`
+	Total      int      `json:"total"`
 }
 
 func newHandler() http.HandlerFunc {
@@ -11078,7 +11079,8 @@ func newHandler() http.HandlerFunc {
 
 		paginatedFenStrings := fenStrings[from-1 : to]
 
-		json.NewEncoder(rw).Encode(FenResponse{FenStrings: paginatedFenStrings})
+		json.NewEncoder(rw).
+			Encode(FenResponse{FenStrings: paginatedFenStrings, Total: len(fenStrings)})
 	}
 }
 
